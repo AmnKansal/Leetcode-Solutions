@@ -1,0 +1,25 @@
+class Solution {
+    private String LEFT = "(";
+    private String RIGHT = ")";
+    public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+        if (n == 0) return result;
+        dfs(result, new StringBuffer(), n, n);
+        return result;
+    }
+    
+    private void dfs(List<String> result, StringBuffer sb, int numL, int numR) {
+        if (numL == 0 && numR == 0) {
+            result.add(sb.toString());
+            return;
+        }
+        if (numL > 0) {
+            dfs(result, sb.append(LEFT), numL - 1, numR);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        if (numR > 0 && numL < numR) {
+            dfs(result, sb.append(RIGHT), numL, numR - 1);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+}
