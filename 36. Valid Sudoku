@@ -1,0 +1,29 @@
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        if (board == null || board.length == 0 || board[0].length == 0 || board.length != board[0].length) {
+            return false;
+        }
+        int n = board.length;
+    
+        for (int i = 0; i < n; i++) {
+            HashSet<Character> row = new HashSet<>(), col = new HashSet<>(), block = new HashSet<>();
+            for (int j = 0; j < n; j++) {
+                //Check row
+                if (!helper(board[i][j], row)) return false;
+                //Check col, revert use of i,j
+                if (!helper(board[j][i], col)) return false;
+                //check block
+                int c = 3 * (i % 3) + j % 3;//make use of how i and j increases
+                int r = 3 * (i / 3) + j / 3;
+                if (!helper(board[r][c], block)) return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean helper(char c, Set<Character> set) {
+        if (!set.contains(c)) set.add(c);
+        else if (c != '.') return false;
+        return true;
+    }
+};
